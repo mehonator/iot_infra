@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  web:
+    build: ../iot_server/.
+    restart: always
+    command: poetry run gunicorn iot_server.wsgi:application --bind 0.0.0.0:8001
+    network_mode: host
+    env_file:
+      - ../iot_server/.env
+
+  telegram:
+    build: ../telegram_bot/.
+    restart: always
+    command: poetry run python /code/main.py
+    network_mode: host
+    env_file:
+      - ../telegram_bot/.env
+    
